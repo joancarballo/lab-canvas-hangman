@@ -1,44 +1,77 @@
 let hangman;
 
-// class Hangman {
-//   constructor() {
+class Hangman {
+  constructor() {
+    this.words = ["ontinyent", "valencia", "madrid", "alcala"];
+    this.secretWord = "";
+    this.letters = [];
+    this.guessedLetter = "";
+    this.errorsLeft = 10;
+  }
 
-//   }
+  getWord() {
+    return this.words[
+      Math.floor(Math.random() * this.words.length)
+    ].toUpperCase();
+  }
 
-//   getWord() {
+  checkIfLetter(keyCode) {
+    if (keyCode >= 65 && keyCode <= 90) {
+      // Son los códigos de las letras A-Z en ASCII : https://bit.ly/2Ywxha4
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-//   }
+  checkClickedLetters(key) {
+    if (this.letters.includes(key)) {
+      console.log("Esa letra ya la habías probado: " + key);
+      return false;
+    } else {
+      return true;
+    }
+  }
 
-//   checkIfLetter(keyCode) {
+  addCorrectLetter(i) {
+    console.log("Esa letra está: " + i);
+    this.guessedLetter += this.secretWord[i].toUpperCase();
+    this.checkWinner();
+  }
 
-//   }
+  addWrongLetter(letter) {
+    console.log("Esta letra no está: " + letter);
+    this.letters.push(letter);
+    this.errorsLeft = this.errorsLeft - 1;
+    this.checkGameOver();
+  }
 
-//   checkClickedLetters(key) {
+  checkGameOver() {
+    if (this.errorsLeft == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-//   }
+  checkWinner() {
+    let attemptsCount = 0;
+    for (let i = 0; i < this.secretWord.length; i++) {
+      if (this.guessedLetter.includes(this.secretWord[i])) {
+        attemptsCount++;
+      }
+    }
 
-//   addCorrectLetter(i) {
+    if (attemptsCount === this.secretWord.length) {
+      return true;
+    }
 
-//   }
+    return false;
+  }
+}
 
-//   addWrongLetter(letter) {
-
-//   }
-
-//   checkGameOver() {
-
-//   }
-
-//   checkWinner() {
-
-//   }
-
-// }
-
-document.getElementById('start-game-button').onclick = () => {
+document.getElementById("start-game-button").onclick = () => {
   hangman = new Hangman();
 };
 
-document.onkeydown = (e) => {
-
-};
+document.onkeydown = e => {};
